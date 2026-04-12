@@ -1,0 +1,31 @@
+class Solution:
+    def validTree(self, n: int, edges: List[List[int]]) -> bool:
+        visited = set()
+
+
+        graph = []
+
+        for i in range(n):
+            graph.append([])
+
+        for a, b in edges:
+            graph[a].append(b)
+            graph[b].append(a)
+
+        def dfs(currNode, parent):
+            visited.add(currNode)
+
+            for neighbor in graph[currNode]:
+                if neighbor == parent:
+                    continue
+                
+                if neighbor in visited:
+                    return False
+
+                if not dfs(neighbor, currNode):
+                    return False
+            return True
+
+        if not dfs(0, -1):
+            return False
+        return len(visited) == n
